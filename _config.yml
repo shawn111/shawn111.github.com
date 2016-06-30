@@ -9,7 +9,8 @@
 title: Shawn's Blog
 email: shawn111@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  在blog都退流行的年代, 重新寫blog
+  公司供我吃供我喝供我住, 還讓我跟那麼多大大一起工作. 能在Canonical工作實在太幸福啦.
+  大家一起來用Ubuntu吧... 我會努力工作&努力分享心得的 XD
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://shawn111.github.io" # the base hostname & protocol for your site
 github_username:  shawn111
