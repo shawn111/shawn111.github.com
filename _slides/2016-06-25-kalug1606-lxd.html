@@ -1,0 +1,237 @@
+---
+layout: slide
+title: LXD (LXC 2.0) - The container that you need
+class: center, middle
+---
+
+
+# LXD (LXC 2.0) - The container that you need
+Launch instances in secends on your laptop (LXD + ZFS)
+
+
+KaLUG 1606 Meetup
+
+.footnote[[Shawn Wang](shawn111@gmail.com)] at Online Service APAC team, Canonical.
+
+---
+
+# Outline
+
+1. Don't wait to upgrade to Ubuntu 16.04
+2. ZFS
+3. Some backgroud of Virtualization and Containers
+4. Features of LXC 2.0
+5. demo (LXD + XFS)
+
+---
+
+# Don't wait to upgrade to Ubuntu LTS 16.04 (Xenial)
+
+- Main Reason
+
+ - It is Long Term Support (3 years for Desktop, 5 years for Server)
+
+- My favorite reasons
+
+ - LXD - Linux container hypervisor
+ - ZFS - file system + logical volume manager 
+ - snap/snappy - container-style packages for cross-distributions
+ - juju 2.0 (still beta now) - support LXD provider
+
+- What we still wait for
+
+ - Unity8 + Mir (preinstalled in Yakkety 16.10)
+ - [snap support in LXD](https://lists.ubuntu.com/archives/snapcraft/2016-June/000139.html)
+
+---
+
+# ZFS - file system + logical volume manager
+
+- Before you start:
+ - Don't worry about disk partions layout, ZFS support file based pool
+ - for root on ZFS, you need more [steps](https://github.com/zfsonlinux/zfs/wiki/Ubuntu-16.04-Root-on-ZFS)
+- suggested hardware requirements
+ - ECC memory. This isn't really a requirement, but it's highly recommended.
+ - 8GB+ of memory for the best performance. It's perfectly possible to run with 2GB or less (and people do), but you'll need more if using deduplication.
+- under the CDDL and MPL. [Ubuntu and ZFS: Possibly Illegal, Definitely Exciting](http://redmonk.com/sogrady/2016/03/10/ubuntu-zfs/), [ZFS Licensing and Linux](https://insights.ubuntu.com/2016/02/18/zfs-licensing-and-linux/)
+---
+
+# Killer features for container:
+- snapshots
+- copy-on-write cloning
+- continuous integrity checking against data corruption
+- automatic repair
+- efficient data compression
+
+---
+
+# ZFS History
+
+2005 - Sun Solaris (now owned by Oracle)
+2007 -  [[http://lists.freebsd.org/pipermail/freebsd-current/2007-April/070544.html][ZFS committed to the FreeBSD base]], [[http://coscup.org/2007/Slides/BSD_zfs.pdf][ZFS on FreeBSD: A Quick Tutorial]]
+2010 - Oracle stoped released, forked OpenZFS
+2010 - ZFS on Linux (Native ZFS on Linux, not fusefs), is funded by the Lawrence Livermore National Laboratory
+2016 - Ubuntu, first distribution build-in
+
+---
+# ZoL Main components:
+- SPA (Storage Pool Allocator)
+- DMU (Data Management Unit)
+- ZVOL (the block devices)
+- ZPL layers (ZFS POSIX Layer)
+
+- Reference slide: [[http://wiki.lustre.org/images/4/49/Beijing-2010.2-ZFS_overview_3.1_Dilger.pdf][ZFS Features & Concepts TOI]]
+---
+
+# Useful ZFS commands
+
+- Install ZFS utils
+ # apt install zfsutils-linux
+- Create pool
+ # zpool create pool-abc /dev/sda /dev/sdb1
+
+ # truncate -s 2G file1
+ # zpool create pool-abc /ABSPATH/file1
+- Status
+ # zpool status
+ # zfs list
+
+---
+# Virtualization Background
+- OS virtualization - containers (chroot, vserver, openvz, lxc/lxd)
+- Para-Virtualization - hypervisor (xen), need hardware support
+- Full-Virtualization (kvm, virtualbox)
+
+---
+# OS virtualization or isolation
+
+- chroot - File system isolation
+- kernel userspace - [[http://lwn.net/Articles/531114/][PID, mount, user, network, UTS, IPC isolation]]
+- cgroup - CPU / Memory / disk I/O isolation
+- Seccomp - stands for secure computing mode, allow limited 
+ # grep Seccomp /proc/self/status
+ # lxc exec demo  grep Seccomp /proc/self/status
+- AppArmor - Mandatory Access Control (MAC) system which is a kernel (LSM) enhancement to confine programs to a limited set of resources.
+
+---
+# Docker - Application Container
+- Pros
+ - a large image repository (public/private pool)
+ - an API with a root daemon
+ - networking handle 
+- Cons
+ - Poor image repository security - you don’t know what you run (being worked on)
+ - Poor container isolation (being worked on)
+ - Hard to debug
+ - Always running, mandatory root daemon (by design)
+
+- refer: [[https://www.insecure.ws/linux/systemd_nspawn.html#systemd-docker-lxc-etc][Containers, systemd-nspawn and overlayfs]]
+---
+# LXD
+- isn't
+ - another virtualization technoloy
+ - fork of LXC
+ - application container manager
+
+- [[http://events.linuxfoundation.org/sites/events/files/slides/ContainerCon%202015-%20LXD%20%26%20OpenStack.pdf][LXD]] is
+ - is a container "hypervisor" and a new user experience for LXC.
+ - Specifically, it's made of three components:
+  A system-wide daemon (lxd)
+  A command line client (lxc)
+  An OpenStack Nova plugin (nova-compute-lxd)
+ - unprivileged by default
+- [[http://insights.ubuntu.com/2016/03/14/the-lxd-2-0-story-prologue/][The LXD 2.0 Story]]
+---
+
+# Storage Backend
+
+- [[https://github.com/lxc/lxd/blob/master/doc/storage-backends.md][Backends]]
+ - Directory
+ - Btrfs
+ - LVM
+ - ZFS
+- Support for online snapshotting, including running state with Checkpoint/Restore in User (CRIU)
+- Live migration support
+
+- Config by init
+ # lxd init
+
+---
+# Image and image pools
+- Image based workflow (no more locally built rootfs)
+- Tightly integrated with remote image services
+ - https://images.linuxcontainers.org/
+- image import/export
+- image alais
+
+---
+# UI imporve and REST API
+
+- [[https://github.com/lxc/lxd/blob/master/doc/database.md][Data store in sqlite]]
+- [[http://events.linuxfoundation.org/sites/events/files/slides/ContainerCon%202015-%20LXD%20%26%20OpenStack.pdf][LXD and OpenStack]]
+ - containers > snapshots
+ - images > aliases
+ - certificates
+ - operations
+ - networks
+ - volumes
+ - profiles
+ - events
+- Improve Shell command control
+ - example list
+  lxc list --fast
+  lxc list
+  lxc list --format json
+
+---
+# profile / config
+
+- replace lxc template
+- allow mulit-profiles
+- limit cpu / memory
+- config device
+- use [[https://cloudinit.readthedocs.io/en/latest/][cloud-init]] to handles early initialization of a cloud instance
+ apt / user / ...
+
+---
+# Interacting with remote hosts
+- LXD 1.0 API: That’s the REST API used between the clients and a LXD daemon as well as between LXD daemons when copying/moving images and containers.
+- Simplestreams: The Simplestreams protocol is a read-only, image-only protocol used by both the LXD client and daemon to get image information and import images from some public image servers (like the Ubuntu images).
+
+ $ lxc remote add foo 1.2.3.4
+- more exciting: container migration move and copy
+- You still need setup iptable for [[https://github.com/sebgrohn/lxd-portforward][port forwarding]]
+
+---
+# Demo
+
+- profile - ssh keys
+
+ $ lxc profile edit default
+  name: default
+  config:
+    user.user-data: |
+      #cloud-config
+      ssh_authorized_keys: |
+       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDM0bOs7Eyy6yhQxrSOgapxvxoUsm3DqBnOV9GD3iE7ITbrTk1l5hOUkI+Teen/IQvpb3ZHg2wKl5xy032WwQJNJ4xMOIlBM9buqZsPZ6Gr1drZ25+ajvMf+iFMCJLXe9pXFS5Hfh9K6Pq3TFOb+Z8Ya/kFYOHJlAKHBSJbp4cyEcY7qKKPsgm9zhpIAek5QrTQai684Ly9ZJDgKWeuF0qPAUtC8DG5qgO2gKNh0FSR2PbvYwuTCj2rXa7U0btoJuhpUcfDfLvd3Oi/BbbgOQzGQz2tn47326x1DGr0cPlLwkhuM5rjvL4dfli8bT+VilqrnxeAokSLl/NwclhM/2Oh shawn@canonical
+  description: Default LXD profile
+  devices:
+    eth0:
+      name: eth0
+      nictype: bridged
+      parent: lxdbr0
+      type: nic
+
+- Demo profile - ssh home
+- Demo LXD or Docker in LXD
+
+---
+
+# Demo LXD setup with ZFS
+[![asciicast](https://asciinema.org/a/14.png)](https://asciinema.org/a/14)
+
+---
+
+# Thank you
+
+[[http://kalug.kktix.cc/][KaLUG Meetups]], please join us.
