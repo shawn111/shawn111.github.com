@@ -6,15 +6,18 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: Shawn Wang
+title: Shawn's Blog
 email: shawn111@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  在blog都退流行的年代, 重新寫blog
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://shawn111.github.io" # the base hostname & protocol for your site
 github_username:  shawn111
 
 # Build settings
 markdown: kramdown
+
+collections:
+  slides:
+    output: true
+    permalink: /slides/:path/
