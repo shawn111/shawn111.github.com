@@ -1,5 +1,7 @@
 ---
 layout: default
+title: Slides
+permalink: /presentations/
 ---
 
 # Slides
