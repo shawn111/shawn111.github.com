@@ -67,11 +67,11 @@ KaLUG 1606 Meetup
 
 # ZFS History
 
-2005 - Sun Solaris (now owned by Oracle)
-2007 -  [[http://lists.freebsd.org/pipermail/freebsd-current/2007-April/070544.html][ZFS committed to the FreeBSD base]], [[http://coscup.org/2007/Slides/BSD_zfs.pdf][ZFS on FreeBSD: A Quick Tutorial]]
-2010 - Oracle stoped released, forked OpenZFS
-2010 - ZFS on Linux (Native ZFS on Linux, not fusefs), is funded by the Lawrence Livermore National Laboratory
-2016 - Ubuntu, first distribution build-in
+- 2005 - Sun Solaris (now owned by Oracle)
+- 2007 - [ZFS committed to the FreeBSD base](http://lists.freebsd.org/pipermail/freebsd-current/2007-April/070544.html), [ZFS on FreeBSD: A Quick Tutorial](http://coscup.org/2007/Slides/BSD_zfs.pdf)
+- 2010 - Oracle stoped released, forked OpenZFS
+- 2010 - ZFS on Linux (Native ZFS on Linux, not fusefs), is funded by the Lawrence Livermore National Laboratory
+- 2016 - Ubuntu, first distribution build-in
 
 ---
 # ZoL Main components:
@@ -80,21 +80,25 @@ KaLUG 1606 Meetup
 - ZVOL (the block devices)
 - ZPL layers (ZFS POSIX Layer)
 
-- Reference slide: [[http://wiki.lustre.org/images/4/49/Beijing-2010.2-ZFS_overview_3.1_Dilger.pdf][ZFS Features & Concepts TOI]]
+- Reference slide: [ZFS Features & Concepts TOI](http://wiki.lustre.org/images/4/49/Beijing-2010.2-ZFS_overview_3.1_Dilger.pdf)
 ---
 
 # Useful ZFS commands
 
 - Install ZFS utils
- # apt install zfsutils-linux
-- Create pool
- # zpool create pool-abc /dev/sda /dev/sdb1
 
- # truncate -s 2G file1
- # zpool create pool-abc /ABSPATH/file1
+        # apt install zfsutils-linux
+
+- Create pool
+
+        # zpool create pool-abc /dev/sda /dev/sdb1
+        # truncate -s 2G file1
+        # zpool create pool-abc /ABSPATH/file1
+
 - Status
- # zpool status
- # zfs list
+
+        # zpool status
+        # zfs list
 
 ---
 # Virtualization Background
@@ -106,11 +110,16 @@ KaLUG 1606 Meetup
 # OS virtualization or isolation
 
 - chroot - File system isolation
-- kernel userspace - [[http://lwn.net/Articles/531114/][PID, mount, user, network, UTS, IPC isolation]]
+- kernel userspace - [PID, mount, user, network, UTS, IPC isolation](http://lwn.net/Articles/531114/)
 - cgroup - CPU / Memory / disk I/O isolation
 - Seccomp - stands for secure computing mode, allow limited 
- # grep Seccomp /proc/self/status
- # lxc exec demo  grep Seccomp /proc/self/status
+
+        # grep Seccomp /proc/self/status
+
+- lxc exec demo
+
+        # grep Seccomp /proc/self/status
+
 - AppArmor - Mandatory Access Control (MAC) system which is a kernel (LSM) enhancement to confine programs to a limited set of resources.
 
 ---
@@ -125,7 +134,7 @@ KaLUG 1606 Meetup
  - Hard to debug
  - Always running, mandatory root daemon (by design)
 
-- refer: [[https://www.insecure.ws/linux/systemd_nspawn.html#systemd-docker-lxc-etc][Containers, systemd-nspawn and overlayfs]]
+- refer: [Containers, systemd-nspawn and overlayfs](https://www.insecure.ws/linux/systemd_nspawn.html#systemd-docker-lxc-etc)
 ---
 # LXD
 - isn't
@@ -133,19 +142,19 @@ KaLUG 1606 Meetup
  - fork of LXC
  - application container manager
 
-- [[http://events.linuxfoundation.org/sites/events/files/slides/ContainerCon%202015-%20LXD%20%26%20OpenStack.pdf][LXD]] is
+- [LXD](http://events.linuxfoundation.org/sites/events/files/slides/ContainerCon%202015-%20LXD%20%26%20OpenStack.pdf) is
  - is a container "hypervisor" and a new user experience for LXC.
  - Specifically, it's made of three components:
   A system-wide daemon (lxd)
   A command line client (lxc)
   An OpenStack Nova plugin (nova-compute-lxd)
  - unprivileged by default
-- [[http://insights.ubuntu.com/2016/03/14/the-lxd-2-0-story-prologue/][The LXD 2.0 Story]]
+- [The LXD 2.0 Story](http://insights.ubuntu.com/2016/03/14/the-lxd-2-0-story-prologue/)
 ---
 
 # Storage Backend
 
-- [[https://github.com/lxc/lxd/blob/master/doc/storage-backends.md][Backends]]
+- [Backends](https://github.com/lxc/lxd/blob/master/doc/storage-backends.md)
  - Directory
  - Btrfs
  - LVM
@@ -154,7 +163,8 @@ KaLUG 1606 Meetup
 - Live migration support
 
 - Config by init
- # lxd init
+
+        # lxd init
 
 ---
 # Image and image pools
@@ -167,8 +177,8 @@ KaLUG 1606 Meetup
 ---
 # UI imporve and REST API
 
-- [[https://github.com/lxc/lxd/blob/master/doc/database.md][Data store in sqlite]]
-- [[http://events.linuxfoundation.org/sites/events/files/slides/ContainerCon%202015-%20LXD%20%26%20OpenStack.pdf][LXD and OpenStack]]
+- [Data store in sqlite](https://github.com/lxc/lxd/blob/master/doc/database.md)
+- [LXD and OpenStack](http://events.linuxfoundation.org/sites/events/files/slides/ContainerCon%202015-%20LXD%20%26%20OpenStack.pdf)
  - containers > snapshots
  - images > aliases
  - certificates
@@ -190,7 +200,7 @@ KaLUG 1606 Meetup
 - allow mulit-profiles
 - limit cpu / memory
 - config device
-- use [[https://cloudinit.readthedocs.io/en/latest/][cloud-init]] to handles early initialization of a cloud instance
+- use [cloud-init](https://cloudinit.readthedocs.io/en/latest/) to handles early initialization of a cloud instance
  apt / user / ...
 
 ---
@@ -200,27 +210,27 @@ KaLUG 1606 Meetup
 
  $ lxc remote add foo 1.2.3.4
 - more exciting: container migration move and copy
-- You still need setup iptable for [[https://github.com/sebgrohn/lxd-portforward][port forwarding]]
+- You still need setup iptable for [port forwarding](https://github.com/sebgrohn/lxd-portforward)
 
 ---
 # Demo
 
 - profile - ssh keys
 
- $ lxc profile edit default
-  name: default
-  config:
-    user.user-data: |
-      #cloud-config
-      ssh_authorized_keys: |
-       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDM0bOs7Eyy6yhQxrSOgapxvxoUsm3DqBnOV9GD3iE7ITbrTk1l5hOUkI+Teen/IQvpb3ZHg2wKl5xy032WwQJNJ4xMOIlBM9buqZsPZ6Gr1drZ25+ajvMf+iFMCJLXe9pXFS5Hfh9K6Pq3TFOb+Z8Ya/kFYOHJlAKHBSJbp4cyEcY7qKKPsgm9zhpIAek5QrTQai684Ly9ZJDgKWeuF0qPAUtC8DG5qgO2gKNh0FSR2PbvYwuTCj2rXa7U0btoJuhpUcfDfLvd3Oi/BbbgOQzGQz2tn47326x1DGr0cPlLwkhuM5rjvL4dfli8bT+VilqrnxeAokSLl/NwclhM/2Oh shawn@canonical
-  description: Default LXD profile
-  devices:
-    eth0:
-      name: eth0
-      nictype: bridged
-      parent: lxdbr0
-      type: nic
+        $ lxc profile edit default
+         name: default
+         config:
+           user.user-data: |
+             #cloud-config
+             ssh_authorized_keys: |
+              - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDM0bOs7Eyy6yhQxrSOgapxvxoUsm3DqBnOV9GD3iE7ITbrTk1l5hOUkI+Teen/IQvpb3ZHg2wKl5xy032WwQJNJ4xMOIlBM9buqZsPZ6Gr1drZ25+ajvMf+iFMCJLXe9pXFS5Hfh9K6Pq3TFOb+Z8Ya/kFYOHJlAKHBSJbp4cyEcY7qKKPsgm9zhpIAek5QrTQai684Ly9ZJDgKWeuF0qPAUtC8DG5qgO2gKNh0FSR2PbvYwuTCj2rXa7U0btoJuhpUcfDfLvd3Oi/BbbgOQzGQz2tn47326x1DGr0cPlLwkhuM5rjvL4dfli8bT+VilqrnxeAokSLl/NwclhM/2Oh shawn@canonical
+         description: Default LXD profile
+         devices:
+           eth0:
+             name: eth0
+             nictype: bridged
+             parent: lxdbr0
+             type: nic
 
 - Demo profile - ssh home
 - Demo LXD or Docker in LXD
@@ -234,4 +244,4 @@ KaLUG 1606 Meetup
 
 # Thank you
 
-[[http://kalug.kktix.cc/][KaLUG Meetups]], please join us.
+[KaLUG Meetups](http://kalug.kktix.cc/), please join us.
