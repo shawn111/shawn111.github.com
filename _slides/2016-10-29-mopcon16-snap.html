@@ -1,0 +1,112 @@
+---
+layout: slide
+title: Snap anywhere - Snaps are universal Linux packages
+class: center, middle
+---
+
+# Snap anywhere 
+Snaps are universal Linux packages
+
+
+MOPCON 2016 Unconf
+
+.footnote[[Shawn Wang](shawn111@gmail.com)] at Online Service APAC team, Canonical.
+
+---
+
+# Convergence
+
+1. Hardware: Unity8/Mir
+2. Software: Snap/Snappy
+
+---
+
+# Snap - Quickview
+
+- fix dependecy issue
+ - os and framework snap provide some share libraries
+- security
+ - isolated or container-sytle
+ - apparmor
+ - digital signatures
+- universal
+ - cross-distrubution
+ - designed for devices(phone/desktop/iot) and cloud
+
+---
+
+# new package managent
+
+- package depoly
+- payment
+- snapcraft: single tool from build to release
+- store
+ - myapps.ubuntu.com
+ - my.ubuntu.com (not yet)
+- channels (stable, candidate, beta, edge)
+- cooperation
+- update and revert
+
+
+---
+
+# Snap package format
+
+- a squashFS (V2, Snappy 16)
+- meta data
+ - yaml as config
+- snap format history
+ - deb package
+ - click package
+ - snap v1 (Snappy 15.04)
+
+---
+
+# cross-distrubution
+
+- snap in LXD
+- main distrubution
+ - ubuntu, debian
+ - redhat, fedora, opensuse
+ - archlinux, gentoo
+ - openembedded, yocto, openwrt
+- main components
+ - snapd: a REST API daemon for managing snap package
+ - snap-confine: snap runner
+
+---
+
+# Target users
+- Software developers
+ - software vendors
+ - enterprise depoly
+- Hardward vendors
+- End users
+
+---
+
+# Snappy roadmap
+- Ubuntu Core 16: the first all-snap system
+- ubuntu 18.04: all-snap + unity8/mir
+
+---
+
+# How to build snaps
+
+- snapcraft.io
+- https://github.com/ubuntu/snappy-playpen
+
+---
+
+# How to build snaps
+
+- snapcraft.io
+- https://github.com/ubuntu/snappy-playpen
+
+---
+
+# Real problems you might face
+
+- interface
+- hard code file paths
+
