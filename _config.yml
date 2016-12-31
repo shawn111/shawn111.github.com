@@ -21,7 +21,7 @@ markdown: kramdown
 theme: minima
 
 disqus:
-  shortname: shawn111_blog
+  shortname: shawn111-blog
 
 collections:
   slides:
