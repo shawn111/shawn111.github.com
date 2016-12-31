@@ -20,6 +20,9 @@ github_username:  shawn111
 markdown: kramdown
 theme: minima
 
+disqus:
+  shortname: shawn111_blog
+
 collections:
   slides:
     output: true
