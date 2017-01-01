@@ -10,8 +10,10 @@ layout: default
 
   <div class="post-content" itemprop="articleBody">
     {{ content }}
+    {% if page.slide %}
     <iframe src="/slides/{{ page.slide }}/"  height="400" width="600"></iframe>
     <a href="/slides/{{ page.slide }}/">Slide link</a>
+    {% endif %}
   </div>
 
   {% if site.disqus.shortname %}
