@@ -2,6 +2,7 @@
 layout: post
 title:  "威力強大的 classic confinement"
 date:   2017-01-01 15:20:28 +0800
+tags: [snappy, ubuntu]
 ---
 
 在snapcraft 2.24的[Release Note](<https://github.com/snapcore/snapcraft/releases>)中,
