@@ -14,7 +14,9 @@ permalink: /about/
 感謝Canonical讓我有機會可以跟這麼多神人級的同事一起工作,
 於公餘私身為Ubuntu粉,當然是要用力推Ubuntu的呀...
 
-2016年才又開始想寫blog,實際動手居然是到了2017. XD
+2016年才又開始想寫blog, 實際動手居然是到了2017. XD
 本blog是基於 [Jekyll](<http://jekyllrb.com/>) 來撰寫.
+
+刊載之內容僅代表個人立場. :)
 
 ![Image of Mine](../images/shawn.png)
