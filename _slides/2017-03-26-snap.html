@@ -1,0 +1,218 @@
+---
+layout: slide
+title: snap - Secure packages for Linux and you
+class: center, middle
+---
+
+# snap - redefine packages and distro
+
+Secure packages for Linux and you
+
+
+台南若渴計畫
+
+.footnote[[Shawn Wang](shawn111@gmail.com)] at Online Service APAC team, Canonical.
+
+---
+# Before snap - distro wars
+ - 91 linux 0.01 > 93 debian 0.01 > 98 apt ([debian community guidelines](https://people.debian.org/~enrico/dcg/index.html))
+ - 4.10 ubuntu > 6.06 first LTS > 12.04 LTS for 5 years
+ - ~07 PPA allow developers create personal packages on launchpad
+
+ * slackware: one of oldest distro, no dependency handling ([dependency hell](https://www.cl.cam.ac.uk/~mbf24/packages.pdf))
+ * RPM: 97 rpm > yum, dnf, ...
+
+ * ports tree (learned from BSD): gentoo, ArchLinux
+
+ - 13.10 ubuntu touch 1.0 deb + click > 15.04 snap v1 > snappy release 16
+
+---
+# another package war?
+ * [appimage](http://appimage.org/): [Linus Torvalds](https://fossbytes.com/linus-torvalds-doesnt-use-ubuntu-linux-debian/) said "This is just very cool."
+   - download and run (appimaged optional)
+   - normal user available, don't need admin
+ * [flatpak](http://flatpak.org/): The futree of application distribition
+   - focus on desktop applications
+   - repo style: like ppa
+ * [snap](http://snapcraft.io): Universal Linux packages
+   - all-snap, app/platform/gadget/kernel snap
+   - store (optional, but it is the reason why snap is better)
+
+![standards](https://cdn.arstechnica.net/wp-content/uploads/2016/06/standards.png)
+
+---
+# [apt-get and docker had a baby](https://www.youtube.com/watch?v=0z3yusiCOCk)
+
+## apt: package manager (29K packages on debian)
+ - dependencies: small and keep update
+ - "trusted" distro archive. [#858521 diaspora-common: does 'rm -rf /' on purge](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=858521)
+ - maintain scripts: config/upgrade/install/uninstall/...
+ * released by distro or ppa
+
+## docker: application container
+ - not a single package but included a whole distro
+ - image layers, read-only and stateless at runtime
+ - released by many developer
+ * single entry point
+ * handle network, data and other stuffs
+ * microservices
+
+---
+# snap quickview - snaps, snapd, snapcraft
+- packages (each snap)
+  - contain what program need into single package - no dependecy issue
+    - os and framework snap provide some share libraries (*)
+  - squashfs format: keep program as read-only, split data and program
+- [security](http://people.canonical.com/~davidcalle/core/Whitepaper:%20Ubuntu%20Core%2016%20-%20Security.pdf)
+ - isolated or container-sytle: isolated environment
+ - apparmor: limit
+ - cgroup: limit resoures: avoid DDoS
+- identify (assertion)
+ - digital signatures
+ - define relations for developers, packages, users, devices
+- snapcraft/store
+ - all-in-one build tool from build to release
+ - allow developers to release software not just distro venders (*)
+* universal
+ - cross-distrubution
+ - designed for all purposes: devices(phone/desktop/iot) and cloud
+
+---
+# common commands for end users
+- snap help
+- snap find
+- snap install --classic --channel
+- snap refresh
+- snap info
+- snap remove
+* snap interfaces
+* snap connect
+* snap ack
+* snap known
+- snap login
+- snap buy (my.ubuntu.com)
+
+---
+# Killer snap examples
+ - nextcloud: my favorite snap, one command to build your own dropbox
+ - [conjure-up](http://conjure-up.io): classic snap to build your own openstack or kubernetes
+ - ohmygiraffe: game
+ - others
+   - lxd + lxd-demo-server
+   - live-patch
+ * any of your own web servers
+
+---
+# SW security: source code must be known
+
+## In secret key cryptography
+ - algorithm must be known
+ - only kept secret: The secret key
+ * Therefore, opensource is the basic requirement (opensource fans' option)
+ * opensource is weaker, if it is bad design and not maintained
+
+## W/O opensource, all softwares just like malwares
+ - antivirus: scan whole file systems, and send back inportant data
+ - easter eggs: just another name of backdoor
+ - system upgrade: win10 'upgrade' attacked like virus
+
+---
+# For security, opensoure is not enough
+- well design (*)
+- code review
+- testing (*)
+- code maintain and upgrade (**)
+ - no perfect code
+ - always keep update code
+
+## Store - connect developers and users
+- update (revert)
+- channels (stable, candidate, beta, edge)
+- cooperation
+
+---
+# snap runtime env
+- snap variables: $HOME, $TMP, $SNAP_COMMON
+- writable partitions
+- interfaces
+
+## main components
+ - snapd: a REST API daemon for managing snap package
+ - snap-exec (snap-confine): snap runner
+
+---
+# snap security
+- Traditional permissions: Discretionary Access Controls (DAC)
+- [AppArmor](https://wiki.ubuntu.com/AppArmor): Mandatory Access Control (MAC)
+  - works with file paths. [SELinux > applying labels to files]
+  - e.g.  /etc/apparmor.d/usr.sbin.tcpdump
+  - sudo aa-status
+- [namespaces](https://lwn.net/Articles/531114/)
+  - mount, pid, net, ipc, uts, uid, cgroup e.g. /proc/1/ns/
+  - snap run --shell xx
+  - echo /proc/$$/ns
+  - implement a per-snap `/tmp`
+- Seccomp
+  - The launcher will set a seccomp filter for the command before executing it.
+- cgroups
+  - Ubuntu Core currently uses the devices cgroup for hardware device access controls for hardware assignment
+- devpts newinstance
+  -  Ubuntu Core configures the devpts filesystem in multi-instance mode and mounts a new devpts instance per command to prevent snooping and input injection via /dev/pts.
+---
+# snappy - snap runable environment
+## all-snap
+- Ubuntu Core
+- Ubuntu Personal
+
+## classic distro
+- classic Ubuntu (Ubuntu Desktop/Sever), 14.04 trusty*, 16.04 xenial~
+  - run snap in LXD containers (host xenial with squashfuse)
+
+- cross-distrubution 
+  - other distrs: redhat, fedora, opensuse, archlinux, gentoo, openembedded, yocto, openwrt (snappy everywhere)
+
+---
+# all-snap
+- os snap > platform snap
+- read-only root file system
+
+![snap_architecture](http://ubuntudesign.github.io/docs-demo/media/snappy-dev/snap_architecture.png)
+
+
+---
+# some more snap features
+- classic confinement
+- devmode
+- channel, track
+- alias, e.g. lxd.lxc
+- kpi - stats of usage
+- private packages
+- brand store
+- build.snapcraft.io - build snap for source code hosted by github
+
+---
+# How to build snaps
+- snapcraft.io
+- snapcraft: a CLI tool to build snaps
+- snapcraft.yaml
+  - source
+  - build-packages
+  - staging-packages
+  - plugins (make, python, autotools, ..)
+  - apps
+  - hooks
+- https://github.com/ubuntu/snappy-playpen
+
+---
+# Target users
+- Software developers: publish your own packages and earn money :)
+ - software vendors
+ - enterprise depoly
+- Hardware vendors: no pain about system upgrade
+- End users: it is just so simple
+
+## We want you!! Let's make it better.
+- https://snapcraft.io/
+- https://github.com/snapcore/
+- [snapcraft@lists.snapcraft.io](https://lists.ubuntu.com/mailman/listinfo/snapcraft)
+- https://rocket.ubuntu.com/channel/snapcraft
