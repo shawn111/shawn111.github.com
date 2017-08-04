@@ -1,0 +1,392 @@
+---
+layout: slide
+title: snap COSCUP Ubuntu-TW Workshop
+class: center, middle
+---
+
+# snap - redefine packages and distro
+
+> > >  ### - The dream for developers and users -
+
+> > > > > > > > ...
+
+> > > ### 8/5 COSCUP Ubuntu-TW Workshop
+
+
+> > > > > > ### [[Shawn Wang](shawn111@gmail.com)]
+
+---
+# Who am I - Shawn Wang
+
+- Easystack - system engineering
+- Canonical - Online Service APAC team (previous)
+- KaLUG - Kaohsiung Linux User Group
+
+
+## Big changes for me in recent days
+- Ubuntu -> CentOS (Easystack ESCore)
+- deb -> rpm
+- snap / snapcraft / snappy -> ostree / rpm-ostree / atomic
+- Unity(i3wm) -> Gnome Shell
+
+---
+# Classic vs Snappy or all-snaps
+![classic_vs_core](../../images/Ubuntu_Classic_vs_Core_-_Desktop.png)
+
+---
+# Mark: "[apt-get and docker had a baby...](https://www.youtube.com/watch?v=0z3yusiCOCk)"
+
+- Why we need a different container purely for apps? (Container Camp 2016)
+
+![containers](../../images/containers.png)
+
+---
+# distro wars
+> > We need someone help us to collect packages
+
+- source based
+ - Gentoo / [BSD] / ArchLinux?
+
+- binary based
+ - slackware: no dependency handling ([dependency hell](https://www.cl.cam.ac.uk/~mbf24/packages.pdf))
+
+### dependency
+- deb / apt (debian/ubuntu)
+- rpm / yum (redhat/fedora/centos)
+---
+# apt or yum: package manager
+ - dependencies: small and keep update
+ - "trusted" distro archive. (29K packages on debian)
+   - [#858521 diaspora-common: does 'rm -rf /' on purge](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=858521)
+ - maintain scripts: config/upgrade/install/uninstall/...
+ * released by distro or ppa
+   - ppa convenience but *dangerous*!!!
+
+### We trust Debian/Ubuntu/Redhat/CentOS/..., but ...
+
+- easy upgrade, hard downgrade (or nobody care)
+- hard to cross-distro
+- upstream apps?
+
+---
+# docker: application container
+
+ * not a single package but included a whole distro
+ * image layers, read-only and stateless at runtime
+ * lots of support utilities and frameworks: k8s
+
+### good solution for engineers but still too hard for end-users
+
+![docker](../../images/docker.png)
+
+---
+# another package war?
+ * [AppImage](http://appimage.org/): [Linus Torvalds](https://fossbytes.com/linus-torvalds-doesnt-use-ubuntu-linux-debian/) said "This is just very cool."
+   - download and run (appimaged optional)
+   - normal user available, don't need admin
+ * [flatpak](http://flatpak.org/):
+   - focus on desktop applications
+   - use ostree to distribute and manage applications and runtimes.
+   - repo style: like ppa
+ * [libOSTree/rpm-ostree/atomic](https://www.projectatomic.io/):
+   - "git-like" model for bootable filesystem trees
+
+> > ![standards](https://cdn.arstechnica.net/wp-content/uploads/2016/06/standards.png)
+
+---
+# snap quickview 
+
+#### snap - self-contained and self-confined:
+ - secure storage area isolated from others
+ - interfaces for others to consume
+
+#### snaps - where to get snaps, snap [store](https://dashboard.snapcraft.io/).
+
+#### snapd - a REST API daemon for managing snap package
+ - snap-exec (snap-confine): snap runner
+
+#### snappy - snap run enviroment
+ - classic, 14.04~ (even in lxd) and most linux distros
+ - all-snaps
+
+#### snapcraft - utility to build and publish snaps (for developers)
+
+---
+# Killer snap examples
+ - nextcloud: my favorite snap, one command to build your own dropbox
+ - [conjure-up](http://conjure-up.io): classic snap to build your own openstack or kubernetes
+ - ohmygiraffe: game
+ - others
+   - lxd + lxd-demo-server
+   - live-patch
+ * any of your own web servers
+
+
+---
+# snap - is a squashFS filesystem
+ - containing your app code and anything you need
+ - some wrapper (option)
+ - meta data
+   - [meta/snap.yaml](https://snapcraft.io/docs/snaps/metadata#snap.yaml) - snap details
+   - [meta/hooks/](https://docs.ubuntu.com/core/en/guides/build-device/config-hooks) - like [configure](https://github.com/snapcore/snapcraft/tree/master/demos/hooks/snap/hooks), upgrade
+   - meta/gui/ - icon.svg, *.desktop
+
+## [after install](https://github.com/snapcore/snapd/wiki/Snap-Execution-Environment)
+
+* snap files: /var/lib/snapd/snaps/{pkg}_{revision}.snap
+* mount path:
+  * /snap/telegram-latest/{revision}
+  * /run/snapd/ns/
+* /var/lib/snapd/seccomp/
+* command path /snap/bin/{pkg}.{command} or /snap/bin/{pkg}
+---
+# Installed snaps
+```
+/snap/
+├── bin
+│   ├── <snap-a>.xx
+│   └── <snap-b>
+└── <snap>
+    ├── <snap revision 1>/
+    │   ├── bin/
+    │   │   └── <app binaries>
+    │   ├── meta/
+    │   │   ├── gui/
+    │   │   ├── hooks/
+    │   │   └── snap.yaml
+    │   └── <app files v1.0>
+    ├── <snap revision 2>/
+    │   ├── bin/
+    │   │   └── <app binaries>
+    │   ├── meta/
+    │   │   ├── gui/
+    │   │   ├── hooks/
+    │   │   └── snap.yaml
+    │   └── <app files v1.x>
+    └── current -> <snap revision 2>
+```
+
+---
+# Snapping philosophy
+
+* relocatable code
+ - $SNAP, $SNAP_DATA, and $SNAP_USER_DATA
+ - not rely hard code paths like /etc, /tmp
+* ship (and refer!) to your own dependencies
+ - libraries and 3rd party dependencies from your snap itself and the core snap. - wrapper overriding PYTHONPATH, LD_LIBRARY_PATH, GEM_HOME, PATH...
+* Write data to user path
+* Common vs versioned path.
+
+## right confinement
+* devmode first - in /var/log/syslog, you may see some apparmor and seccomp warnings with ALLOWED tags
+* don’t request too many permissions -  lesser plugs
+
+---
+# confinement policies
+
+## strict - default
+ - only read and write in its own namespace
+ - libraries:  it bundles and/or provided by the core or ubuntu-core snap
+ - extended rights can be granted with interfaces
+
+## devmode
+ - for testing and development, /var/log/syslog 
+
+## classic - only for classic env
+ - as traditionally packaged application, access real /
+ - security policy are manually reviewed in the store
+
+
+
+---
+# all-snap
+- read-only root file system
+- transactional updates 
+
+![snap_architecture](http://ubuntudesign.github.io/docs-demo/media/snappy-dev/snap_architecture.png)
+
+---
+# snap security
+- Traditional permissions: Discretionary Access Controls (DAC)
+- [AppArmor](https://wiki.ubuntu.com/AppArmor): Mandatory Access Control (MAC)
+  - works with file paths. [SELinux > applying labels to files]
+  - e.g.  /etc/apparmor.d/usr.sbin.tcpdump
+  - sudo aa-status
+- [namespaces](https://lwn.net/Articles/531114/)
+  - mount, pid, net, ipc, uts, uid, cgroup e.g. /proc/1/ns/
+  - snap run --shell xx
+  - echo /proc/$$/ns
+  - implement a per-snap `/tmp`
+- Seccomp
+  - The launcher will set a seccomp filter for the command before executing it.
+- cgroups
+  - Ubuntu Core currently uses the devices cgroup for hardware device access controls for hardware assignment
+- devpts newinstance
+  -  Ubuntu Core configures the devpts filesystem in multi-instance mode and mounts a new devpts instance per command to prevent snooping and input injection via /dev/pts.
+---
+# snap commands and alias
+* support many commands in single snap
+
+```
+$ snap aliases
+App                            Alias             Notes
+postgresql96.clusterdb         clusterdb         -
+postgresql96.createdb          createdb          -
+postgresql96.createlang        createlang        -
+postgresql96.createuser        createuser        -
+postgresql96.dropdb            dropdb            -
+postgresql96.droplang          droplang          -
+postgresql96.dropuser          dropuser          -
+postgresql96.ecpg              ecpg              -
+postgresql96.initdb            initdb            -
+[...]
+```
+
+---
+# interface slug and plug
+* slug - provider
+* plug - consumer
+
+* [your first interface](https://snapcraft.io/docs/core/interfaces)
+
+![interfaces](../../images/interfaces.png)
+
+```
+$ snap interfaces
+Slot                 Plug
+...
+:camera              -
+:pulseaudioe         telegram-latest
+```
+
+---
+# interface connect
+* [Core interfaces reference](https://docs.ubuntu.com/core/en/reference/interfaces/index)
+
+## auto-connect
+ - the interface is connected upon snap install
+
+## transitional
+ - traditional desktop features not designed with strong application isolation
+
+---
+# Why we need store
+* *much much* easy to find packages
+
+
+* private packages
+* channel, track
+* kpi - stats of usage
+* brand store, edge store?
+* snaps, users, devices (assertions)
+
+## other store infra
+* delta service
+* build.snapcraft.io - build snap for source code hosted by github
+
+---
+# kpi - stats of usage
+
+![kpi](../../images/dashboard-stat.png)
+
+---
+# channel, track
+![tracks_channels](../../images/tracks_channels_example.png)
+
+---
+# [assertions](https://docs.ubuntu.com/core/en/reference/assertions/model)
+
+- account
+- account-key
+- model
+- serial
+- snap-declaration
+- snap-build
+- snap-revision
+- system-user
+- validation
+
+
+
+---
+# Target users
+- Software developers: publish your own packages and earn money :)
+ - software vendors
+ - enterprise depoly
+- Hardware vendors: no pain about system upgrade
+- End users: it is just so simple
+
+---
+# How to involve?
+
+- https://snapcraft.io/
+- https://github.com/snapcore/
+- [snapcraft@lists.snapcraft.io](https://lists.ubuntu.com/mailman/listinfo/snapcraft)
+- [g+ snappy everywhere](https://plus.google.com/communities/103356268060178755068)
+- https://forum.snapcraft.io/
+- https://rocket.ubuntu.com/channel/snapcraft
+
+---
+# Workshop
+
+- How to use snap
+ - install/remove/config/upgrade/channels download
+ - gui install
+
+- snapcraft
+
+- store
+ - dashboard.snapcraft.io
+ - build.snapcraft.io
+
+---
+# Transactional updates
+- snap refresh
+
+![transactional_update](../../images/transactional_update.png)
+
+---
+# snapcraft - packaing tool to build snap
+
+- How to build snaps
+- snapcraft.io
+- snapcraft: a CLI tool to build snaps
+- snapcraft.yaml
+  - source
+  - build-packages
+  - staging-packages
+  - plugins (make, python, autotools, ..)
+  - apps
+  - hooks
+---
+# snapcraft - source structure
+## snapcraft.yaml
+ - ./snapcraft.yaml
+ - snap/snapcraft.yaml
+
+## plugins (local plugins)
+
+---
+# snapcraft - [part](https://snapcraft.io/docs/build-snaps/parts)
+- independent space and lifecycle
+- different plugins
+
+## local sources
+## online sources, such as git, bzr, a tarball
+## remote parts: like [curl]
+---
+# snapcraft - [plugins](//snapcraft.io/docs/build-snaps/plugins)
+ - snapcraft list-plugins
+
+## build cycle
+ - pull: retrieve the source for the part from the specified location
+ - build: drive the build system determined by the choice of plugin
+ - stage: consolidate desireable files from all the parts in one tree
+ - prime: distill down to only the files which will go into the snap
+ - snap: compress the prime tree into the installable snap file
+
+---
+# upload snap to store
+
+- snapcraft push
+- snapcraft release
