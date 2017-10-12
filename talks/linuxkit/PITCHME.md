@@ -1,9 +1,3 @@
----
-layout: slide
-title: LinuxKit and Container OS
-class: center, middle
----
-
 @title[Introduction]
 # <span style="color: #e49436">LinuxKit</span> & <span style="color: #e49436">Alpine</span>
 
