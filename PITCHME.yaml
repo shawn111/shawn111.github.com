@@ -2,3 +2,4 @@ transition : fade
 mousewheel : true
 logo : images/easystack-logo.png
 footnote : "Copyright © 2017 EasyStack Inc."
+theme : beige
