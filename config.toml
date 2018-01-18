@@ -1,0 +1,11 @@
+baseURL = "http://shawn111.github.io/"
+languageCode = "en-US"
+defaultContentLanguage = "en"
+
+title = "Shawn - Coding and Fun"
+theme = "kiera"
+metaDataFormat = "yaml"
+
+[author]
+    name = "Shawn Wang"
+    github = "#shawn111"
