@@ -15,6 +15,5 @@ jobs:
       - run: git submodule init
       - run: git submodule update
       - run: git worktree add -B master public origin/master
-      - run: ./sync_external_docs
       - run: hugo
       - run: cd public; git add . ; git commit -m "ci data update"; git push --force git@github.com:shawn111/shawn111.github.io.git HEAD:refs/heads/master
