@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: jojomi/hugo:latest
+
+    steps:
+      - checkout
+      - run: apk --no-cache add python py2-yaml py2-requests openssh-client
+      - run: mkdir -p ~/.ssh
+      - run: chmod 700 ~/.ssh
+      - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run: git config --global user.email "shawn111@gmail.com"
+      - run: git config --global user.name "CI - shawn111"
+      - run: git submodule init
+      - run: git submodule update
+      - run: git worktree add -B master public origin/master
+      - run: ./sync_external_docs
+      - run: hugo
+      - run: cd public; git add . ; git commit -m "ci data update"; git push --force git@github.com:shawn111/shawn111.github.io.git HEAD:refs/heads/master
