@@ -1,6 +1,11 @@
 ---
 date: 2018-01-18
 title: cli utilty to manage your github gist
+tags: 
+ - "git"
+ - "github"
+ - "gist"
+ - "go"
 ---
 
 Github Gist or PasteBin, it's kind of service allow you to post single files.
