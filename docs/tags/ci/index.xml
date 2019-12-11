@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CI on Shawn - Coding and Fun</title>
+    <link>http://shawn111.github.io/tags/ci/</link>
+    <description>Recent content in CI on Shawn - Coding and Fun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 19 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://shawn111.github.io/tags/ci/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>use git worktree/submodule and CI to create hugo github-pages</title>
+      <link>http://shawn111.github.io/posts/gp-page-hugo-ci/</link>
+      <pubDate>Fri, 19 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://shawn111.github.io/posts/gp-page-hugo-ci/</guid>
+      <description>As begin, I confused about the github-pages rules. I found git worktree/submodule are so great to keep your github-pages repo clear.
+You might need below type of branch or repo
+ public data branch: git worktree (master or gh-pages) source data branch (maybe branch hugo) theme repo as git submodule  Once you split your repo structure, you can add CI. Then you can just force about content and don&#39;t need to care about the public parts.</description>
+    </item>
+    
+  </channel>
+</rss>

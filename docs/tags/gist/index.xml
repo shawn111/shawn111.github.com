@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gist on Shawn - Coding and Fun</title>
+    <link>http://shawn111.github.io/tags/gist/</link>
+    <description>Recent content in gist on Shawn - Coding and Fun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Thu, 25 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://shawn111.github.io/tags/gist/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>hugo gist shortcode</title>
+      <link>http://shawn111.github.io/posts/hugo-gist-shortcode/</link>
+      <pubDate>Thu, 25 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://shawn111.github.io/posts/hugo-gist-shortcode/</guid>
+      <description>{{&amp;lt; gist shawn111 e98c0d2f3a3d03e7553ea52f0e42ada2 &amp;gt;}}  </description>
+    </item>
+    
+    <item>
+      <title>cli utilty to manage your github gist</title>
+      <link>http://shawn111.github.io/posts/gist/</link>
+      <pubDate>Thu, 18 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://shawn111.github.io/posts/gist/</guid>
+      <description>&lt;p&gt;Github Gist or PasteBin, it&#39;s kind of service allow you to post single files.
+For me, the only backdraw is Gist don&#39;t have a nice cli client.&lt;/p&gt;
+&lt;p&gt;I found a nice cli utilty of Github Gist. github.com/b4b4r07/gist&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

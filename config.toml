@@ -5,6 +5,7 @@ defaultContentLanguage = "en"
 title = "Shawn - Coding and Fun"
 theme = "kiera"
 metaDataFormat = "yaml"
+publishDir = "docs"
 
 [author]
     name = "Shawn Wang"

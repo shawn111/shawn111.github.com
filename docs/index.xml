@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shawn - Coding and Fun</title>
+    <link>http://shawn111.github.io/</link>
+    <description>Recent content on Shawn - Coding and Fun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Thu, 25 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://shawn111.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>About Me</title>
+      <link>http://shawn111.github.io/about/</link>
+      <pubDate>Thu, 18 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://shawn111.github.io/about/</guid>
+      <description>Hey there, I&#39;m an opensource fan. We can always find something interesting of opensource. I like to learn and sharing.
+We, KaLUG (Kaohsiung Linux User Group) have a monthly meetup. https://kalug.kktix.cc/ You can reach me in the meetups or contact me on irc.</description>
+    </item>
+    
+    <item>
+      <title>How to speed up X11 forwarding in SSH</title>
+      <link>http://shawn111.github.io/posts/how-to-speed-up-x11-forwarding-in-ssh/</link>
+      <pubDate>Thu, 25 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://shawn111.github.io/posts/how-to-speed-up-x11-forwarding-in-ssh/</guid>
+      <description>vi ~/.ssh/config
+Host remote_host.com Compression yes ForwardX11 yes Ciphers blowfish-cbc,arcfour http://xmodulo.com/how-to-speed-up-x11-forwarding-in-ssh.html</description>
+    </item>
+    
+    <item>
+      <title>hugo gist shortcode</title>
+      <link>http://shawn111.github.io/posts/hugo-gist-shortcode/</link>
+      <pubDate>Thu, 25 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://shawn111.github.io/posts/hugo-gist-shortcode/</guid>
+      <description>{{&amp;lt; gist shawn111 e98c0d2f3a3d03e7553ea52f0e42ada2 &amp;gt;}}  </description>
+    </item>
+    
+    <item>
+      <title>use git worktree/submodule and CI to create hugo github-pages</title>
+      <link>http://shawn111.github.io/posts/gp-page-hugo-ci/</link>
+      <pubDate>Fri, 19 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://shawn111.github.io/posts/gp-page-hugo-ci/</guid>
+      <description>As begin, I confused about the github-pages rules. I found git worktree/submodule are so great to keep your github-pages repo clear.
+You might need below type of branch or repo
+ public data branch: git worktree (master or gh-pages) source data branch (maybe branch hugo) theme repo as git submodule  Once you split your repo structure, you can add CI. Then you can just force about content and don&#39;t need to care about the public parts.</description>
+    </item>
+    
+    <item>
+      <title>cli utilty to manage your github gist</title>
+      <link>http://shawn111.github.io/posts/gist/</link>
+      <pubDate>Thu, 18 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://shawn111.github.io/posts/gist/</guid>
+      <description>&lt;p&gt;Github Gist or PasteBin, it&#39;s kind of service allow you to post single files.
+For me, the only backdraw is Gist don&#39;t have a nice cli client.&lt;/p&gt;
+&lt;p&gt;I found a nice cli utilty of Github Gist. github.com/b4b4r07/gist&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>git patch review flow with git-send-email</title>
+      <link>http://shawn111.github.io/posts/git-send-email/</link>
+      <pubDate>Thu, 18 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://shawn111.github.io/posts/git-send-email/</guid>
+      <description>https://gist.github.com/shawn111/64ee0125acab30c619e129c52de94082</description>
+    </item>
+    
+  </channel>
+</rss>
